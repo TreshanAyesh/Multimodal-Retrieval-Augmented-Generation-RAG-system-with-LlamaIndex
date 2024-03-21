@@ -33,7 +33,7 @@ class ReceiptInfo(BaseModel):
     category: str = Field(..., description="Is this a women's or men's item. unisex for anything other than those two")
     summary: str = Field(
         ...,
-        description="a simple description including when can this be worn, suitable events to wear,  etc. ",
+        description="a simple description including color, type ,when can this be worn and suitable events to wear,  etc. ",
     )
 
 #The gemini model matching
