@@ -17,6 +17,7 @@ from typing import List
 from dotenv import load_dotenv
 # from IPython.display import Image
 
+import vector_db
 load_dotenv('.env')
 
 
@@ -35,12 +36,23 @@ class ReceiptInfo(BaseModel):
         description="a simple description including when can this be worn, suitable events to wear,  etc. ",
     )
 
+#The gemini model matching
+class ReceiptInfo_matching(BaseModel):
+    summary: str = Field(
+        ...,
+        description="description of the matching clothing item.",
+    )
 
 prompt_template_str = """\
     Can you summarize the cloting item in the image and return a response \
     with the following JSON format: \
 """
 
+prompt_give_matching_cloths_str = """\
+    Can you give information for a matching clothing items to wear with the cloth in the image\
+    If this is top wear give a matching bottom wear and vice versa.\
+    with the following JSON format: \
+"""
 
 
 def pydantic_gemini(output_class, image_documents, prompt_template_str):
@@ -84,6 +96,17 @@ def aprocess_image_file(image_file):
     img_docs = SimpleDirectoryReader(input_files=[image_file]).load_data()
     output = pydantic_gemini(ReceiptInfo, img_docs, prompt_template_str)
     return output
+
+#process a single file to get matching cloths
+def aprocess_image_file_matching(image_file):
+    # should load one file
+    print(f"Image file: {image_file}")
+
+    img_docs = SimpleDirectoryReader(input_files=[image_file]).load_data()
+    output = pydantic_gemini(ReceiptInfo_matching, img_docs, prompt_give_matching_cloths_str)
+    return output
+
+
 
 #process several files in a path 
 def aprocess_image_files(image_files):
@@ -144,3 +167,12 @@ def print_nodes(nodes):
     for i in range(len(nodes)):
         print(nodes[i].get_content(metadata_mode="all"))
 
+
+def find_matching(img_dir):
+    """Receive the path of an image and return text node 
+    object of the matching image classification"""
+    output = aprocess_image_file_matching(img_dir)
+    output = output.summary
+    output = output.split("would")
+    result = vector_db.retrieve(output[0])
+    return result

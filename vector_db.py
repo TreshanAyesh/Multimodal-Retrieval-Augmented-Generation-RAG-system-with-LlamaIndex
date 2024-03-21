@@ -187,7 +187,7 @@ def display_response(nodes):
 def retrieve(query):
     results = chroma_collection.query(
     query_texts=[query],
-    n_results=3,
+    n_results=5,
     # where={"color": "red"}, # optional filter
 )
     return results
