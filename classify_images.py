@@ -38,6 +38,7 @@ class ReceiptInfo(BaseModel):
 
 #The gemini model matching
 class ReceiptInfo_matching(BaseModel):
+    cloth_type: str = Field(..., description="Type of the cloth or fashion item")
     summary: str = Field(
         ...,
         description="description of the matching clothing item.",

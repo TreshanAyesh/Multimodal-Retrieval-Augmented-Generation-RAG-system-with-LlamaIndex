@@ -42,8 +42,8 @@ import vector_db
 if __name__ == "__main__":
     
     img_dir = "Wardrobe/2136.jpg"
-    # nodes = classify_images.classify_single_image(img_dir)
-    # classify_images.print_nodes(nodes)
+    nodes = classify_images.classify_single_image(img_dir)
+    classify_images.print_nodes(nodes)
 
     #img_dir = "Wardrobe/"
     #nodes = classify_images.classify_images_in_directory(img_dir, sample_size=0)
@@ -59,12 +59,12 @@ if __name__ == "__main__":
     # for i in range(len(results["ids"][0])):
     #     print(results["metadatas"][0][i]["image_file"])
     
-    # results = vector_db.retrieve_similar(nodes)
-    # for i in range(len(results["ids"][0])):
-    #     print(results["metadatas"][0][i]["image_file"])
-
-    results = classify_images.find_matching(img_dir)
+    results = vector_db.retrieve_similar(nodes)
     for i in range(len(results["ids"][0])):
         print(results["metadatas"][0][i]["image_file"])
+
+    # results = classify_images.find_matching(img_dir)
+    # for i in range(len(results["ids"][0])):
+    #     print(results["metadatas"][0][i]["image_file"])
 
     
