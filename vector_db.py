@@ -13,7 +13,8 @@ from llama_index.core.retrievers import VectorIndexAutoRetriever
 import os
 from IPython.display import Image
 import IPython.display as display
-
+from llama_index.core.schema import TextNode
+from typing import List
 load_dotenv('.env')
 
 GOOGLE_API_KEY : str = os.getenv("GOOGLE_API_KEY")
@@ -191,3 +192,21 @@ def retrieve(query):
 )
     return results
 
+
+def retrieve_similar(nodes: List[TextNode]):
+    """Receive a single image and file similar images in the database"""
+
+    cloth_type = nodes[0].metadata["cloth_type"]
+    color = nodes[0].metadata["color"]
+    season = nodes[0].metadata["season"]
+    category = nodes[0].metadata["category"]
+
+    summary = nodes[0].text
+
+    print("Finding similar cloths to :" + color +" "+ cloth_type)
+
+    results = chroma_collection.query(
+    query_texts=[summary],
+    n_results=5,
+)
+    return results
