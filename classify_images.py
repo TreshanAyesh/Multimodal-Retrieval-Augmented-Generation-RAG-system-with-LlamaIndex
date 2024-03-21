@@ -1,6 +1,5 @@
 from pydantic import BaseModel,Field
 from PIL import Image
-import matplotlib.pyplot as plt
 import os
 import google.generativeai as genai
 from llama_index.multi_modal_llms.gemini import GeminiMultiModal
@@ -11,13 +10,13 @@ import time
 from pathlib import Path
 import random
 from typing import Optional
-from IPython.display import Image,display
 from llama_index.core.schema import TextNode
 from typing import List
 from dotenv import load_dotenv
-# from IPython.display import Image
 
+#file imports
 import vector_db
+import remove_back
 load_dotenv('.env')
 
 
@@ -93,8 +92,15 @@ def get_image_files(
 def aprocess_image_file(image_file):
     # should load one file
     print(f"Image file: {image_file}")
+    image = Image.open(image_file)
+    #Example image_file path: Wardrobe/test_image.jpg
 
-    img_docs = SimpleDirectoryReader(input_files=[image_file]).load_data()
+    img_dir = "Segmented\\"+str(image_file)
+
+    pred_seg = remove_back.model_in(image)
+    remove_back.background_rem(pred_seg,image,img_dir)
+
+    img_docs = SimpleDirectoryReader(input_files=[img_dir]).load_data()
     output = pydantic_gemini(ReceiptInfo, img_docs, prompt_template_str)
     return output
 

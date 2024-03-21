@@ -54,44 +54,6 @@ service_context = ServiceContext.from_defaults(
 storage_context = StorageContext.from_defaults(vector_store=vector_store)
 
 
-
-# def create_database():
-#     global service_context 
-#     global storage_context 
-
-#     vector_store = ChromaVectorStore(chroma_collection=chroma_collection)
-
-#     embed_model = GeminiEmbedding(
-#         model_name="models/embedding-001", api_key=GOOGLE_API_KEY
-#     )
-#     service_context = ServiceContext.from_defaults(
-#         llm=Gemini(api_key=GOOGLE_API_KEY),
-#         embed_model=embed_model,
-#     )
-
-#     storage_context = StorageContext.from_defaults(vector_store=vector_store)
-
-
-
-# def get_collection_client():
-#     global chroma_collection
-#     global chroma_client
-    
-#     #cromadb
-#     chroma_client = chromadb.PersistentClient(path="./vdb", settings=Settings(
-#         anonymized_telemetry=False
-#     ))
-
-#     chroma_collection = chroma_client.get_or_create_collection(
-#                         name = "quickstart",
-#                         metadata={"hnsw:space": "cosine"},
-#                         embedding_function=GeminiEmbeddingFunction()                
-#     )
-
-
-
-
-
 def index_vectors(nodes):
     # get_collection_client()
     # create_database()
