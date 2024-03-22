@@ -40,7 +40,7 @@ class ReceiptInfo_matching(BaseModel):
     cloth_type: str = Field(..., description="Type of the cloth or fashion item")
     summary: str = Field(
         ...,
-        description="description of the matching clothing item.",
+        description="description of the matching clothing item.Answer in the format - _______ and _________ would match the given cloth",
     )
 
 prompt_template_str = """\
@@ -51,6 +51,7 @@ prompt_template_str = """\
 prompt_give_matching_cloths_str = """\
     Can you give information for a matching clothing items to wear with the cloth in the image\
     If this is top wear give a matching bottom wear and vice versa.\
+    Answer in the format - _______ and _________ would match the given cloth\
     with the following JSON format: \
 """
 

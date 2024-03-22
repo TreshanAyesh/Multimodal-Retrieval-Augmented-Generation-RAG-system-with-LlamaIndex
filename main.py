@@ -16,7 +16,7 @@ import vector_db
 if __name__ == "__main__":
     
     """Input a single image and get a description of what is in the image"""
-    # img_dir = "Wardrobe\\2136.jpg"
+    # img_dir = "Wardrobe\\1785.jpg"
     # nodes = classify_images.classify_single_image(img_dir)
     # classify_images.print_nodes(nodes)
 
